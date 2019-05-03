@@ -1,4 +1,4 @@
-package com.bysj.chatting.model;
+package com.bysj.chatting.bean;
 
 /**
  * Created by shaoxin on 19-5-2.

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:orientation="horizontal"
+    android:paddingTop="10dp">
+    <!--头像-->
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/qiv_avatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:qmui_border_width="0dp"
+        app:qmui_is_circle="true"
+        app:srcCompat="@mipmap/header_default" />
+    <!--昵称和签名-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="18dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:text="头文字DA186"
+            android:textColor="@color/text_black3"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:text="只想安静地做一枚安静的学霸"
+            android:textColor="@color/text_black6"
+            android:textSize="16dp" />
+    </LinearLayout>
+</LinearLayout>

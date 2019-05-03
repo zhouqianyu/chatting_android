@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--头像-->
+        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:id="@+id/qiv_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:qmui_border_width="0dp"
+            app:qmui_is_circle="true"
+            app:srcCompat="@mipmap/header_default" />
+        <!--昵称和最近一条消息-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:text="我的电脑"
+                android:textColor="@color/text_black3"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:maxLines="1"
+                android:text="我的电脑我的电脑我的电脑我的电脑我的电脑我的电脑"
+                android:textColor="@color/text_black6"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <!--时间和是否已读-->
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="18:39"
+                android:textColor="@color/text_black9"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/iv_read"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="right"
+                android:src="@mipmap/unread_count_bg" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#e5e5e5"></LinearLayout>
+
+</LinearLayout>
