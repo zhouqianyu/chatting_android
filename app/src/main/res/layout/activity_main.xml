@@ -15,20 +15,20 @@
         <RadioButton
             android:id="@+id/rb_chatting"
             style="@style/tab_menu_item"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:text="@string/index" />
+            android:drawableTop="@drawable/menu_chatting"
+            android:text="消息" />
 
         <RadioButton
             android:id="@+id/rb_friends"
             style="@style/tab_menu_item"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:text="@string/course" />
+            android:drawableTop="@drawable/menu_contact"
+            android:text="好友" />
 
         <RadioButton
             android:id="@+id/rb_mine"
             style="@style/tab_menu_item"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:text="@string/learn" />
+            android:drawableTop="@drawable/menu_mine"
+            android:text="我的" />
     </RadioGroup>
 
     <View

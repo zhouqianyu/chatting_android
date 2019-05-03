@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="好友页"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--头部-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="消息"
+            android:textColor="@color/Write"
+            android:textSize="18dp" />
+    </LinearLayout>
+    <!--搜索框-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/Write"
+        android:orientation="horizontal">
+
+        <com.bysj.chatting.view.ClearEditText
+            android:id="@+id/cet_search"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@color/grey0"
+            android:gravity="center"
+            android:hint="搜索"
+            android:textColor="@color/text_black3"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <!--列表外面嵌套下拉刷新-->
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--好友列表-->
+        <ListView
+            android:id="@+id/lv_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

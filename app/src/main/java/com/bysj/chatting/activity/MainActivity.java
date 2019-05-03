@@ -119,15 +119,15 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     *这是设置底部图标大小的方法
     */
     private void changeImageSize() {
-        final int len = PixelUtil.dip2px(MainActivity.this, 28);
+        final int len = PixelUtil.dip2px(MainActivity.this, 24);
         //定义底部标签图片大小
-        Drawable drawable1 = getResources().getDrawable(R.mipmap.ic_launcher);
+        Drawable drawable1 = getResources().getDrawable(R.drawable.menu_chatting);
         drawable1.setBounds(0, 0, len, len);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
         rbChatting.setCompoundDrawables(null, drawable1, null, null);//只放上面
-        Drawable drawable2 = getResources().getDrawable(R.mipmap.ic_launcher);
+        Drawable drawable2 = getResources().getDrawable(R.drawable.menu_contact);
         drawable2.setBounds(0, 0, len, len);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
         rbFriends.setCompoundDrawables(null, drawable2, null, null);//只放上面
-        Drawable drawable3 = getResources().getDrawable(R.mipmap.ic_launcher);
+        Drawable drawable3 = getResources().getDrawable(R.drawable.menu_mine);
         drawable3.setBounds(0, 0, len, len);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
         rbMine.setCompoundDrawables(null, drawable3, null, null);//只放上面
     }
