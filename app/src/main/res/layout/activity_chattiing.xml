@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--头部-->
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary">
@@ -28,7 +30,66 @@
             android:text="我的电脑"
             android:textColor="@color/qmui_config_color_white"
             android:textSize="18sp" />
-
     </RelativeLayout>
+
+    <!--消息列表-->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/re_bottom"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:divider="@color/Write" />
+
+    <!--底部框-->
+    <LinearLayout
+        android:id="@+id/re_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#f2f2f2"
+        android:orientation="horizontal">
+
+        <!--文字组合-->
+        <LinearLayout
+            android:id="@+id/ll_text_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="visible">
+            <!--切换成语音-->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@mipmap/icon_audio_input" />
+            <!--输入框-->
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/Write" />
+            <!--发送-->
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/bn_send"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/Write"
+                app:qmui_backgroundColor="@color/qmui_config_color_blue"
+                app:qmui_radius="5dp" />
+        </LinearLayout>
+
+        <!--语音组合-->
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

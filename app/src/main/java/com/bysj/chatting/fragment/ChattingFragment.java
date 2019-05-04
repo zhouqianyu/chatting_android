@@ -1,6 +1,7 @@
 package com.bysj.chatting.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -8,9 +9,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bysj.chatting.R;
+import com.bysj.chatting.activity.ChattingActivity;
 import com.bysj.chatting.adapter.MessageAdapter;
 import com.bysj.chatting.bean.MessageBean;
 import com.bysj.chatting.view.ClearEditText;
@@ -66,8 +69,18 @@ public class ChattingFragment extends Fragment {
         listItemsRe = new ArrayList<>();
         adapter = new MessageAdapter(getActivity(), listItems);
         lvMessage.setAdapter(adapter);
-
         cetSearch = getActivity().findViewById(R.id.cet_search);
+        // 设置动作和监听器
+        lvMessage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                MessageBean mb = listItems.get(position);
+                Intent intent = new Intent(getActivity(), ChattingActivity.class);
+                intent.putExtra("friendName", mb.getFriendName());
+                intent.putExtra("friendId", mb.getFriendId());
+                startActivity(intent);
+            }
+        });
         cetSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -97,6 +110,7 @@ public class ChattingFragment extends Fragment {
                 isRead = 0;
 
             }
+            messageBean.setId(i);
             messageBean.setFriendAvatar("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=110576933,1748619052&fm=27&gp=0.jpg");
             messageBean.setContent("这些消息" + i);
             messageBean.setFriendId(i + "");

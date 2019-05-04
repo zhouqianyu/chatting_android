@@ -1,6 +1,7 @@
 package com.bysj.chatting.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -9,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bysj.chatting.R;
+import com.bysj.chatting.activity.ChattingActivity;
 import com.bysj.chatting.adapter.FriendAdapter;
 import com.bysj.chatting.bean.UserBean;
 import com.bysj.chatting.view.ClearEditText;
@@ -31,7 +34,7 @@ public class FriendsFragment extends Fragment {
     // 定义对象
     private ClearEditText cetSearch;
     private SmartRefreshLayout smartRefreshLayout;
-    private ListView lvMessage;
+    private ListView lvFriend;
 
     // 数据列表
     private List<UserBean> listItemsRe;
@@ -57,7 +60,7 @@ public class FriendsFragment extends Fragment {
      */
     private void initView() {
         cetSearch = getActivity().findViewById(R.id.cet_search_friend);
-        lvMessage = getActivity().findViewById(R.id.lv_friend);
+        lvFriend = getActivity().findViewById(R.id.lv_friend);
         smartRefreshLayout = getActivity().findViewById(R.id.smart_refresh_friend);
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()));
@@ -66,8 +69,18 @@ public class FriendsFragment extends Fragment {
         listItems = new ArrayList<>();
         listItemsRe = new ArrayList<>();
         adapter = new FriendAdapter(getActivity(), listItems);
-        lvMessage.setAdapter(adapter);
-        // 搜索
+        lvFriend.setAdapter(adapter);
+        // 设置监听器
+        lvFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                UserBean user = listItems.get(position);
+                Intent intent = new Intent(getActivity(), ChattingActivity.class);
+                intent.putExtra("friendName", user.getUsername());
+                intent.putExtra("friendId", user.getUuid());
+                startActivity(intent);
+            }
+        });
         cetSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
