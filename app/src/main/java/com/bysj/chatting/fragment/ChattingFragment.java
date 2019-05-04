@@ -3,6 +3,8 @@ package com.bysj.chatting.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class ChattingFragment extends Fragment {
     private ListView lvMessage;
 
     // 数据列表
+    private List<MessageBean> listItemsRe;
     private List<MessageBean> listItems;
     private MessageAdapter adapter;
 
@@ -60,8 +63,27 @@ public class ChattingFragment extends Fragment {
         // TODO 设置下拉刷新的监听器
 
         listItems = new ArrayList<>();
+        listItemsRe = new ArrayList<>();
         adapter = new MessageAdapter(getActivity(), listItems);
         lvMessage.setAdapter(adapter);
+
+        cetSearch = getActivity().findViewById(R.id.cet_search);
+        cetSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // 执行搜索
+                String key = cetSearch.getText().toString();
+                doSearch(key);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     /**
@@ -69,7 +91,34 @@ public class ChattingFragment extends Fragment {
      */
     private void getListContent() {
         for (int i = 0; i < 10; i++) {
-            listItems.add(new MessageBean());
+            MessageBean messageBean = new MessageBean();
+            int isRead = 1;
+            if (i < 3) {
+                isRead = 0;
+
+            }
+            messageBean.setFriendAvatar("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=110576933,1748619052&fm=27&gp=0.jpg");
+            messageBean.setContent("这些消息" + i);
+            messageBean.setFriendId(i + "");
+            messageBean.setFriendName("好友" + i);
+            messageBean.setIsDelivery(isRead);
+            // TODO 时间（时分/昨天/周几/一周前）这几个梯度
+            messageBean.setTime("昨天");
+            listItemsRe.add(messageBean);
+        }
+        doSearch("");
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 过滤搜索的方法
+     */
+    private void doSearch(String key) {
+        listItems.clear();
+        for (MessageBean messageBean : listItemsRe) {
+            if (messageBean.getFriendName().contains(key) || messageBean.getContent().contains(key)) {
+                listItems.add(messageBean);
+            }
         }
         adapter.notifyDataSetChanged();
     }

@@ -34,7 +34,7 @@
                 android:layout_height="28dp"
                 android:layout_marginTop="10dp"
                 android:maxLines="1"
-                android:text="我的电脑"
+                android:text=""
                 android:textColor="@color/text_black3"
                 android:textSize="16dp" />
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:maxLines="1"
-                android:text="我的电脑我的电脑我的电脑我的电脑我的电脑我的电脑"
+                android:text=""
                 android:textColor="@color/text_black6"
                 android:textSize="14dp" />
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
                 android:gravity="right"
-                android:text="18:39"
+                android:text=""
                 android:textColor="@color/text_black9"
                 android:textSize="14dp" />
 
@@ -68,7 +68,8 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_gravity="right"
-                android:src="@mipmap/unread_count_bg" />
+                android:src="@mipmap/unread_count_bg"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

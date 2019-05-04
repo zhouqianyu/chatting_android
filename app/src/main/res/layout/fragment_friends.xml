@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="消息"
+            android:text="好友"
             android:textColor="@color/Write"
             android:textSize="18dp" />
     </LinearLayout>
@@ -26,7 +26,7 @@
         android:orientation="horizontal">
 
         <com.bysj.chatting.view.ClearEditText
-            android:id="@+id/cet_search"
+            android:id="@+id/cet_search_friend"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -35,19 +35,20 @@
             android:layout_weight="1"
             android:background="@color/grey0"
             android:gravity="center"
-            android:hint="搜索"
+            android:hint="搜索 昵称/账号"
             android:textColor="@color/text_black3"
             android:textSize="12sp" />
     </LinearLayout>
     <!--列表外面嵌套下拉刷新-->
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/smart_refresh"
+        android:id="@+id/smart_refresh_friend"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--好友列表-->
         <ListView
             android:id="@+id/lv_friend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@color/Write" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.bysj.chatting.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by shaoxin on 19-5-2.
  * 聊天的消息模型类
  */
 
-public class MessageBean {
+public class MessageBean implements Serializable{
     private int id;
     private String friendName;  // 好友昵称
     private String friendAvatar;    // 好友头像

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bysj.chatting.R;
 import com.bysj.chatting.bean.MessageBean;
+import com.bysj.chatting.bean.UserBean;
 import com.bysj.chatting.util.ImageUitl;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 
@@ -20,9 +21,9 @@ import java.util.List;
  * 消息列表的适配器
  */
 
-public class MessageAdapter extends BaseAdapter {
+public class FriendAdapter extends BaseAdapter {
     private Context context;
-    private List<MessageBean> listItems;
+    private List<UserBean> listItems;
     private LayoutInflater listContainer;
 
     /**
@@ -31,12 +32,10 @@ public class MessageAdapter extends BaseAdapter {
     public final class ViewHolder {
         public QMUIRadiusImageView qivAvatar;
         public TextView tvNickname;
-        public TextView tvContent;
-        public TextView tvTime;
-        public ImageView ivRead;
+        public TextView tvDescribe;
     }
 
-    public MessageAdapter(Context context, List<MessageBean> listItems) {
+    public FriendAdapter(Context context, List<UserBean> listItems) {
         this.context = context;
         listContainer = LayoutInflater.from(context);
         this.listItems = listItems;
@@ -62,32 +61,22 @@ public class MessageAdapter extends BaseAdapter {
         ViewHolder vh = null;
         if (convertView == null) {
             vh = new ViewHolder();
-            convertView = listContainer.inflate(R.layout.item_message, null);
+            convertView = listContainer.inflate(R.layout.item_friend, null);
             //获得控件对象
             vh.qivAvatar = convertView.findViewById(R.id.qiv_avatar);
             vh.tvNickname = convertView.findViewById(R.id.tv_nickname);
-            vh.tvContent = convertView.findViewById(R.id.tv_content);
-            vh.tvTime = convertView.findViewById(R.id.tv_time);
-            vh.ivRead = convertView.findViewById(R.id.iv_read);
+            vh.tvDescribe = convertView.findViewById(R.id.tv_describe);
             //设置空间集到convertView
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
-
-        MessageBean mb = listItems.get(position);
         // 设置属性
-        vh.tvNickname.setText(mb.getFriendName());
-        vh.tvContent.setText(mb.getContent());
-        // TODO 应该在这里处理时间
-        vh.tvTime.setText(mb.getTime());
+        UserBean ub = listItems.get(position);
+        vh.tvNickname.setText(ub.getUsername());
+        vh.tvDescribe.setText(ub.getDescribe());
         final ViewHolder finalVh = vh;
-        ImageUitl.showNetImage(finalVh.qivAvatar, mb.getFriendAvatar());
-        if (mb.getIsDelivery() == 0) {
-            vh.ivRead.setVisibility(View.VISIBLE);
-        } else {
-            vh.ivRead.setVisibility(View.GONE);
-        }
+        ImageUitl.showNetImage(finalVh.qivAvatar, ub.getAvatar());
         return convertView;
     }
 }
