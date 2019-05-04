@@ -18,10 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="139dp"
+        android:layout_marginTop="140dp"
         android:text="Chatting"
         android:textColor="@color/Write"
-        android:textSize="32dp" />
+        android:textSize="32sp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -29,8 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="50dp"
         android:text="可以很简单"
         android:textColor="@color/Write"
-        android:textSize="32dp" />
+        android:textSize="32sp" />
 </RelativeLayout>

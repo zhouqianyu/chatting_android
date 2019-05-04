@@ -17,7 +17,7 @@
             android:gravity="center"
             android:text="我的"
             android:textColor="@color/Write"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +51,7 @@
                 android:maxLines="1"
                 android:text="张三丰"
                 android:textColor="@color/text_black3"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
         </LinearLayout>
         <!--线条-->
         <LinearLayout
@@ -65,9 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:text="该用户很烂，什么都没写"
+            android:text="该用户很懒，什么都没写"
             android:textColor="@color/text_black6"
-            android:textSize="14dp"></TextView>
+            android:textSize="14sp"></TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                 android:gravity="center_vertical"
                 android:text="修改密码"
                 android:textColor="@color/text_black6"
-                android:textSize="14dp"></TextView>
+                android:textSize="14sp"></TextView>
 
             <ImageView
                 android:layout_width="20dp"
@@ -133,7 +133,7 @@
                 android:gravity="center_vertical"
                 android:text="退出登录"
                 android:textColor="@color/text_black6"
-                android:textSize="14dp"></TextView>
+                android:textSize="14sp"></TextView>
 
             <ImageView
                 android:layout_width="20dp"
