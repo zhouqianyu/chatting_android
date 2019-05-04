@@ -83,11 +83,45 @@
                 android:text="发送"
                 android:textColor="@color/Write"
                 app:qmui_backgroundColor="@color/qmui_config_color_blue"
-                app:qmui_radius="5dp" />
+                app:qmui_radius="2dp" />
         </LinearLayout>
 
         <!--语音组合-->
+        <LinearLayout
+            android:id="@+id/ll_audio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
+            <!--切换成文字-->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@mipmap/icon_audio_input" />
+            <!--录音按钮-->
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/bn_record"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="按住 说话"
+                app:qmui_backgroundColor="@color/Write"
+                app:qmui_borderColor="@color/line_d6"
+                app:qmui_borderWidth="1dp"
+                app:qmui_radius="2dp" />
+
+            <!--配宽度的-->
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!--好友-->
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/qiv_friend_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:qmui_border_width="0dp"
+        app:qmui_is_circle="true"
+        app:srcCompat="@mipmap/header_default" />
+
+    <!--好友发的-->
+
+    <!--我发的-->
+
+    <!--我-->
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/qiv_my_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:qmui_border_width="0dp"
+        app:qmui_is_circle="true"
+        app:srcCompat="@mipmap/header_default" />
+</LinearLayout>
