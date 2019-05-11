@@ -62,7 +62,7 @@
                     android:ems="12"
                     android:gravity="center"
                     android:hint="@string/please_input_account"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:maxLength="12" />
 
             </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout>
@@ -77,7 +77,7 @@
                 app:qmui_radius="30dp">
 
                 <com.bysj.chatting.view.ClearEditText
-                    android:id="@+id/et_password"
+                    android:id="@+id/cet_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
