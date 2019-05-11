@@ -152,12 +152,10 @@ public class FriendsFragment extends Fragment {
                             JSONObject item = array.getJSONObject(i);
                             JSONObject user = item.getJSONObject("user");
                             UserBean userBean = new UserBean();
-                            // TODO 假数据
-                            userBean.setAvatar("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=110576933,1748619052&fm=27&gp=0.jpg");
+                            userBean.setAvatar(user.getString("img_url"));
                             userBean.setUuid(user.getString("uuid"));
                             userBean.setUsername(user.getString("username"));
-                            // TODO 假数据
-                            userBean.setDescribe("该用户很懒，没有写头像");
+                            userBean.setDescribe(user.getString("describe").equals("null") ? "该用户很懒，没有写头像" : user.getString("describe"));
                             listItemsRe.add(userBean);
                         }
                         doSearch("");
@@ -172,16 +170,6 @@ public class FriendsFragment extends Fragment {
                 }
             }
         });
-
-//        for (int i = 0; i < 10; i++) {
-//            UserBean userBean = new UserBean();
-//            userBean.setUuid(i + "1231");
-//            userBean.setAvatar("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=110576933,1748619052&fm=27&gp=0.jpg");
-//            userBean.setUsername("好友" + i);
-//            userBean.setDescribe("该好友很懒，什么都没写");
-//            listItemsRe.add(userBean);
-//        }
-
     }
 
     /**

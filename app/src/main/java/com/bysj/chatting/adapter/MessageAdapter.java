@@ -80,7 +80,7 @@ public class MessageAdapter extends BaseAdapter {
         vh.tvNickname.setText(mb.getFriendName());
         vh.tvContent.setText(mb.getContent());
         // TODO 应该在这里处理时间
-        vh.tvTime.setText(mb.getTime());
+        vh.tvTime.setText(mb.getTime().substring(5, mb.getTime().length()));
         final ViewHolder finalVh = vh;
         ImageUitl.showNetImage(finalVh.qivAvatar, mb.getFriendAvatar());
         if (mb.getIsDelivery() == 0) {

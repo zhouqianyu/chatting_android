@@ -6,23 +6,39 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bysj.chatting.R;
 import com.bysj.chatting.activity.ChattingActivity;
 import com.bysj.chatting.adapter.MessageAdapter;
+import com.bysj.chatting.application.ChattingApplication;
 import com.bysj.chatting.bean.MessageBean;
+import com.bysj.chatting.util.CallBackUtil;
+import com.bysj.chatting.util.Constant;
+import com.bysj.chatting.util.OkhttpUtil;
 import com.bysj.chatting.view.ClearEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * Created by shaoxin on 19-5-2.
@@ -39,6 +55,9 @@ public class ChattingFragment extends Fragment {
     private List<MessageBean> listItemsRe;
     private List<MessageBean> listItems;
     private MessageAdapter adapter;
+
+    ChattingApplication application;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +77,7 @@ public class ChattingFragment extends Fragment {
      * 初始化
      */
     private void initView() {
+        application = (ChattingApplication) getActivity().getApplication();
         cetSearch = getActivity().findViewById(R.id.cet_search);
         lvMessage = getActivity().findViewById(R.id.lv_message);
         smartRefreshLayout = getActivity().findViewById(R.id.smart_refresh);
@@ -103,25 +123,51 @@ public class ChattingFragment extends Fragment {
      * 获取列表数据并设置到页面上
      */
     private void getListContent() {
-        for (int i = 0; i < 10; i++) {
-            MessageBean messageBean = new MessageBean();
-            int isRead = 1;
-            if (i < 3) {
-                isRead = 0;
+        String url = Constant.BASE_DB_URL + "message/friends";
+        Map<String, String> map = new HashMap<>();
+        map.put("token", application.getToken());
+        OkhttpUtil.okHttpPost(url, map, new CallBackUtil.CallBackString() {
 
+            @Override
+            public void onFailure(Call call, Exception e) {
+                Toast.makeText(getActivity(), R.string.server_response_error, Toast.LENGTH_SHORT).show();
             }
-            messageBean.setId(i);
-            messageBean.setFriendAvatar("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=110576933,1748619052&fm=27&gp=0.jpg");
-            messageBean.setContent("这些消息" + i);
-            messageBean.setFriendId(i + "");
-            messageBean.setFriendName("好友" + i);
-            messageBean.setIsDelivery(isRead);
-            // TODO 时间（时分/昨天/周几/一周前）这几个梯度
-            messageBean.setTime("昨天");
-            listItemsRe.add(messageBean);
-        }
-        doSearch("");
-        adapter.notifyDataSetChanged();
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("res", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int code = jsonObject.getInt("code");
+                    if (code == 200) {
+                        JSONArray array = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject item = array.getJSONObject(i);
+                            JSONObject msg = item.getJSONArray("chattingLogs").getJSONObject(0);
+                            JSONObject user = item.getJSONObject("user");
+                            Log.e("msg", msg.toString());
+                            MessageBean messageBean = new MessageBean();
+                            messageBean.setId(msg.getInt("id"));
+                            messageBean.setFriendAvatar(user.getString("img_url"));
+                            messageBean.setContent(msg.getString("message"));
+                            messageBean.setFriendId(user.getString("uuid"));
+                            messageBean.setFriendName(user.getString("username"));
+                            messageBean.setIsDelivery(msg.getInt("is_delivery"));
+                            // TODO 时间（时分/昨天/周几/一周前）这几个梯度
+                            Date date = new Date(msg.getLong("created_at"));
+                            messageBean.setTime(sdf.format(date));
+                            listItemsRe.add(messageBean);
+                        }
+                        doSearch("");
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getActivity(), R.string.server_response_error, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
