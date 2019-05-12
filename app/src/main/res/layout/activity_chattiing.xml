@@ -33,13 +33,60 @@
     </RelativeLayout>
 
     <!--消息列表-->
-    <ListView
+    <!--<ListView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_above="@+id/re_bottom"-->
+    <!--android:layout_below="@+id/relativeLayout"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:divider="@color/Write" />-->
+
+    <!--假的聊天-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/re_bottom"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_centerHorizontal="true"
-        android:divider="@color/Write" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            app:qmui_border_width="0dp"
+            app:qmui_is_circle="true"
+            app:srcCompat="@drawable/avatar" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxWidth="250dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@mipmap/chatfrom_bg"
+            android:text="你好周千遇,我最近在研究梯度下降算法，不知道你对这块感不感兴趣，如果感兴趣的话我们可以交流一下见解"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:gravity="right">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxWidth="250dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/chatto_bg"
+            android:text="你好，很高兴认识你。"/>
+        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            app:qmui_border_width="0dp"
+            app:qmui_is_circle="true"
+            app:srcCompat="@mipmap/header_default" />
+    </LinearLayout>
+
 
     <!--底部框-->
     <LinearLayout
@@ -61,6 +108,7 @@
             android:visibility="visible">
             <!--切换成语音-->
             <ImageView
+                android:id="@+id/iv_to_audio"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -97,6 +145,7 @@
 
             <!--切换成文字-->
             <ImageView
+                android:id="@+id/iv_to_text"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"

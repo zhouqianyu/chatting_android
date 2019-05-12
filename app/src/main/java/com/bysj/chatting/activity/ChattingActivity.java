@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bysj.chatting.R;
@@ -20,6 +22,10 @@ public class ChattingActivity extends AppCompatActivity {
     private int friendId;
 
     private TextView tvFriendName;
+    private ImageView ivToAudio;
+    private ImageView ivToText;
+    private LinearLayout llAudioGroup;
+    private LinearLayout llTextGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class ChattingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chattiing);
         initView();
         initData();
+        setListener();
     }
 
     /**
@@ -34,6 +41,30 @@ public class ChattingActivity extends AppCompatActivity {
      */
     private void initView() {
         tvFriendName = findViewById(R.id.tv_friend_name);
+        ivToAudio = findViewById(R.id.iv_to_audio);
+        ivToText = findViewById(R.id.iv_to_text);
+        llAudioGroup = findViewById(R.id.ll_audio_group);
+        llTextGroup = findViewById(R.id.ll_text_group);
+    }
+
+    /**
+     * 设置动作和监听器
+     */
+    private void setListener() {
+        ivToAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llTextGroup.setVisibility(View.GONE);
+                llAudioGroup.setVisibility(View.VISIBLE);
+            }
+        });
+        ivToText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llAudioGroup.setVisibility(View.GONE);
+                llTextGroup.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**
