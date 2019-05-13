@@ -113,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (code == 200) {
                         String data = jsonObject.getString("data");
                         application.setToken(data);
+                        // TODO设置我的id
+                        application.setMiId("test");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();

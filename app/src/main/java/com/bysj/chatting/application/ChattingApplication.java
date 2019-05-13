@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class ChattingApplication extends Application implements Serializable {
     private static final long serialVersionUID = 1L;
     private String token;
+    private String miId;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -22,5 +23,13 @@ public class ChattingApplication extends Application implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getMiId() {
+        return miId;
+    }
+
+    public void setMiId(String miId) {
+        this.miId = miId;
     }
 }
