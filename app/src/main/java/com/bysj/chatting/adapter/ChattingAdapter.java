@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bysj.chatting.R;
@@ -36,6 +37,8 @@ public class ChattingAdapter extends BaseAdapter {
         public QMUIRadiusImageView qivMine;
         public TextView tvFriend;
         public TextView tvMine;
+        public LinearLayout llFriend;
+        public LinearLayout llMine;
     }
 
     public ChattingAdapter(Context context, List<ChattingBean> listItems) {
@@ -44,7 +47,7 @@ public class ChattingAdapter extends BaseAdapter {
         this.listItems = listItems;
 
         ChattingApplication application = (ChattingApplication) context.getApplicationContext();
-        myId=application.getMiId();
+        myId = application.getMiId();
     }
 
     @Override
@@ -73,6 +76,8 @@ public class ChattingAdapter extends BaseAdapter {
             vh.qivMine = convertView.findViewById(R.id.qiv_my_avatar);
             vh.tvFriend = convertView.findViewById(R.id.tv_friend_msg);
             vh.tvMine = convertView.findViewById(R.id.tv_my_msg);
+            vh.llFriend = convertView.findViewById(R.id.ll_friend);
+            vh.llMine = convertView.findViewById(R.id.ll_mine);
             //设置空间集到convertView
             convertView.setTag(vh);
         } else {
@@ -84,19 +89,15 @@ public class ChattingAdapter extends BaseAdapter {
         if (myId.equals(cb.getReceiverId())) {
             // 我收到的
             vh.tvFriend.setText(cb.getContent());
-            vh.tvFriend.setVisibility(View.VISIBLE);
-            vh.tvMine.setVisibility(View.GONE);
-            vh.qivFriend.setVisibility(View.VISIBLE);
-            vh.qivMine.setVisibility(View.GONE);
+            vh.llFriend.setVisibility(View.VISIBLE);
+            vh.llMine.setVisibility(View.GONE);
             ImageUitl.showNetImage(vh.qivFriend, cb.getSenderAvatar());
             ImageUitl.showNetImage(vh.qivMine, cb.getReceiverAvatar());
         } else if (myId.equals(cb.getSenderId())) {
             // 我发出去的
             vh.tvMine.setText(cb.getContent());
-            vh.tvMine.setVisibility(View.VISIBLE);
-            vh.tvFriend.setVisibility(View.GONE);
-            vh.qivFriend.setVisibility(View.GONE);
-            vh.qivMine.setVisibility(View.VISIBLE);
+            vh.llFriend.setVisibility(View.GONE);
+            vh.llMine.setVisibility(View.VISIBLE);
             ImageUitl.showNetImage(vh.qivMine, cb.getSenderAvatar());
             ImageUitl.showNetImage(vh.qivFriend, cb.getReceiverAvatar());
         } else {

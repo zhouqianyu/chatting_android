@@ -6,48 +6,60 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <!--好友-->
-    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-        android:id="@+id/qiv_friend_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        app:qmui_border_width="0dp"
-        app:qmui_is_circle="true"
-        app:srcCompat="@mipmap/header_default" />
-
-    <!--好友发的-->
-    <TextView
-        android:id="@+id/tv_friend_msg"
+    <LinearLayout
+        android:id="@+id/ll_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:background="@mipmap/chatfrom_bg"
-        android:gravity="center_vertical"
-        android:maxWidth="250dp"
-        android:text=""
-        android:visibility="gone" />
-    <!--我发的-->
-    <TextView
-        android:id="@+id/tv_my_msg"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:orientation="horizontal">
+        <!--好友-->
+        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:id="@+id/qiv_friend_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:qmui_border_width="0dp"
+            app:qmui_is_circle="true"
+            app:srcCompat="@mipmap/header_default" />
+
+        <!--好友发的-->
+        <TextView
+            android:id="@+id/tv_friend_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:background="@mipmap/chatfrom_bg"
+            android:gravity="center_vertical"
+            android:maxWidth="250dp"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginLeft="16dp"
-        android:background="@mipmap/chatto_bg"
-        android:gravity="center_vertical"
-        android:maxWidth="250dp"
-        android:text="" />
+        android:layout_weight="1"
+        android:gravity="right">
+        <!--我发的-->
+        <TextView
+            android:id="@+id/tv_my_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/chatto_bg"
+            android:gravity="center_vertical"
+            android:maxWidth="250dp"
+            android:text="" />
 
-    <!--我-->
-    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-        android:id="@+id/qiv_my_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right"
-        android:layout_marginTop="10dp"
-        app:qmui_border_width="0dp"
-        app:qmui_is_circle="true"
-        app:srcCompat="@mipmap/header_default" />
+        <!--我-->
+        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:id="@+id/qiv_my_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:qmui_border_width="0dp"
+            app:qmui_is_circle="true"
+            app:srcCompat="@mipmap/header_default" />
+    </LinearLayout>
 </LinearLayout>
