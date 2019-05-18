@@ -163,6 +163,7 @@ public class ChattingFragment extends Fragment {
                         JSONArray array = jsonObject.getJSONArray("data");
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.getJSONObject(i);
+                            Log.e("item", item.toString());
                             MessageBean messageBean = new MessageBean();
                             messageBean.setId(item.getInt("id"));
                             messageBean.setFriendAvatar(item.getString("img_url"));
@@ -211,7 +212,7 @@ public class ChattingFragment extends Fragment {
             @Override
             public void callback(String msg) {
                 // TODO 修改内容
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
             }
         });
         getActivity().registerReceiver(receiver, filter);

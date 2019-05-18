@@ -1,5 +1,6 @@
 package com.bysj.chatting.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +27,7 @@ import com.bysj.chatting.service.MqttService;
 import com.bysj.chatting.util.CallBackUtil;
 import com.bysj.chatting.util.Constant;
 import com.bysj.chatting.util.OkhttpUtil;
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -58,6 +62,9 @@ public class ChattingActivity extends AppCompatActivity {
     private LinearLayout llTextGroup;
     private ListView lvChatting;
 
+    private EditText etInput;
+    private QMUIRoundButton bnSend;
+
     private List<ChattingBean> listItems;
     private ChattingAdapter adapter;
     ChattingApplication application;
@@ -72,7 +79,6 @@ public class ChattingActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
-        starMQTT();
         initReceiver();
     }
 
@@ -87,10 +93,18 @@ public class ChattingActivity extends AppCompatActivity {
         llAudioGroup = findViewById(R.id.ll_audio_group);
         llTextGroup = findViewById(R.id.ll_text_group);
         lvChatting = findViewById(R.id.lv_chatting);
-
+        etInput = findViewById(R.id.et_input);
+        bnSend = findViewById(R.id.bn_send);
         listItems = new ArrayList<>();
         adapter = new ChattingAdapter(ChattingActivity.this, listItems);
         lvChatting.setAdapter(adapter);
+
+        bnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMsg();
+            }
+        });
     }
 
 
@@ -102,8 +116,26 @@ public class ChattingActivity extends AppCompatActivity {
         receiver = new MyReceiver(new MyReceiver.BoardCastCallback() {
             @Override
             public void callback(String msg) {
-                // TODO 修改内容
-                Toast.makeText(ChattingActivity.this, "Chatting" + msg, Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject1 = new JSONObject(msg);
+                    JSONObject jsonObject = jsonObject1.getJSONObject("log");
+                    String uuidFrom = jsonObject.getString("uuid_from");
+                    if (friendId.equals(uuidFrom)) {
+                        ChattingBean cb = new ChattingBean();
+                        cb.setChattingId(jsonObject.getInt("id"));
+                        cb.setContent(jsonObject.getString("message"));
+                        cb.setSenderId(uuidFrom);
+                        cb.setReceiverId(application.getMiId());
+                        cb.setSenderAvatar(friendAvatar);
+                        cb.setReceiverAvatar(application.getMyAvatar());
+                        listItems.add(cb);
+                        adapter.notifyDataSetChanged();
+                        // TODO 发送通知
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("error", e.getLocalizedMessage());
+                }
             }
         });
         registerReceiver(receiver, filter);
@@ -130,36 +162,6 @@ public class ChattingActivity extends AppCompatActivity {
     }
 
     /**
-     * 挂服务
-     */
-    private void starMQTT() {
-        MqttService mqttService;
-        if (application.getMqttService() != null) {
-            mqttService = application.getMqttService();
-        } else {
-            mqttService = new MqttService();
-            mqttService.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable cause) {
-                    Log.e("main_mq", "lost");
-                }
-
-                @Override
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    Log.e("main_mq", new String(message.getPayload(), StandardCharsets.UTF_8));
-                }
-
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken token) {
-                    Log.e("main_mq", "delivery");
-                }
-            });
-            application.setMqttService(mqttService);
-            mqttService.connect(application.getMiId(), "message_to_" + application.getMiId());
-        }
-    }
-
-    /**
      * 初始化数据
      */
     private void initData() {
@@ -181,12 +183,12 @@ public class ChattingActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.e("res", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
                     if (code == 200) {
                         JSONArray array = jsonObject.getJSONArray("data");
+                        Log.e("array", array.toString());
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.getJSONObject(i);
                             ChattingBean cb = new ChattingBean();
@@ -195,11 +197,12 @@ public class ChattingActivity extends AppCompatActivity {
                             cb.setReceiverId(item.getString("uuid_to"));
                             if (application.getMiId().equals(cb.getReceiverId())) {
                                 cb.setSenderAvatar(friendAvatar);
-                                cb.setReceiverAvatar("http://www.fstechnology.cn:81/YZEduResources/images/0.png");
+                                cb.setReceiverAvatar(application.getMyAvatar());
                             } else {
-                                cb.setSenderAvatar("http://www.fstechnology.cn:81/YZEduResources/images/0.png");
+                                cb.setSenderAvatar(application.getMyAvatar());
                                 cb.setReceiverAvatar(friendAvatar);
                             }
+
                             cb.setContent(item.getString("message"));
                             cb.setMyId(application.getMiId());
                             listItems.add(cb);
@@ -218,6 +221,52 @@ public class ChattingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 发送消息
+     */
+    private void sendMsg() {
+        final String str = etInput.getText().toString();
+        if ("".equals(str)) {
+            Toast.makeText(ChattingActivity.this, "内容不能为空", Toast.LENGTH_SHORT).show();
+        } else {
+            String url = Constant.BASE_DB_URL + "message/send";
+            Map<String, String> map = new HashMap<>();
+            map.put("token", application.getToken());
+            map.put("toUuid", friendId);
+            map.put("message", str);
+            OkhttpUtil.okHttpPost(url, map, new CallBackUtil.CallBackString() {
+                @Override
+                public void onFailure(Call call, Exception e) {
+                    Toast.makeText(ChattingActivity.this, R.string.server_response_error, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.getInt("code") == 200) {
+                            ChattingBean cb = new ChattingBean();
+                            cb.setChattingId(12);
+                            cb.setContent(str);
+                            cb.setSenderId(application.getMiId());
+                            cb.setReceiverId(friendId);
+                            cb.setSenderAvatar(application.getMyAvatar());
+                            cb.setReceiverAvatar(friendAvatar);
+                            listItems.add(cb);
+                            adapter.notifyDataSetChanged();
+                            etInput.setText("");
+                            hideKeyBoard();
+                        } else {
+                            Toast.makeText(ChattingActivity.this, R.string.server_response_error, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
     /*
     * 返回上一级
     * xml布局文件里面调用
@@ -231,4 +280,13 @@ public class ChattingActivity extends AppCompatActivity {
         unregisterReceiver(receiver);
         super.onDestroy();
     }
+
+    private void hideKeyBoard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

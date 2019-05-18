@@ -41,6 +41,7 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
         android:divider="@color/Write"
+        android:transcriptMode="alwaysScroll"
         android:stackFromBottom="true" />
 
     <!--底部框-->
@@ -71,6 +72,7 @@
                 android:src="@mipmap/icon_audio_input" />
             <!--输入框-->
             <EditText
+                android:id="@+id/et_input"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

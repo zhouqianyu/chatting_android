@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         if (perPreferences != null) {
             String mName = perPreferences.getString("name", "");
             String mPwd = perPreferences.getString("pass", "");
-            String imgUrl = perPreferences.getString("img_url", "");
+            String imgUrl = perPreferences.getString("img_url", "http://www.fstechnology.cn:81/YZEduResources/images/0.png");
             etAccount.setText(mName);
             etPassword.setText(mPwd);
             ImageUitl.showNetImage(qivHeader, imgUrl);
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.e("res",response);
+                Log.e("res", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
@@ -123,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                         String token = data.getString("token");
                         String uuid = data.getString("uuid");
                         String avatar = data.getString("img_url");
+                        editor.putString("img_url", avatar);
+                        editor.commit();
                         application.setToken(token);
                         application.setMiId(uuid);
                         application.setMyAvatar(avatar);
