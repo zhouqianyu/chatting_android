@@ -161,9 +161,10 @@ public class ChattingFragment extends Fragment {
                     int code = jsonObject.getInt("code");
                     if (code == 200) {
                         JSONArray array = jsonObject.getJSONArray("data");
+                        listItemsRe.clear();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.getJSONObject(i);
-                            Log.e("item", item.toString());
+//                            Log.e("item", item.toString());
                             MessageBean messageBean = new MessageBean();
                             messageBean.setId(item.getInt("id"));
                             messageBean.setFriendAvatar(item.getString("img_url"));
@@ -213,6 +214,7 @@ public class ChattingFragment extends Fragment {
             public void callback(String msg) {
                 // TODO 修改内容
 //                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                getListContent();
             }
         });
         getActivity().registerReceiver(receiver, filter);
@@ -223,5 +225,11 @@ public class ChattingFragment extends Fragment {
     public void onDestroy() {
         getActivity().unregisterReceiver(receiver);
         super.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        getListContent();
+        super.onStart();
     }
 }

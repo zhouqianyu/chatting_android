@@ -98,6 +98,7 @@ public class FriendsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ChattingActivity.class);
                 intent.putExtra("friendName", user.getUsername());
                 intent.putExtra("friendId", user.getUuid());
+                intent.putExtra("friendAvatar", user.getAvatar());
                 startActivity(intent);
             }
         });

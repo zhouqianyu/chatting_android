@@ -131,6 +131,12 @@ public class ChattingActivity extends AppCompatActivity {
                         listItems.add(cb);
                         adapter.notifyDataSetChanged();
                         // TODO 发送通知
+
+                        String url = Constant.BASE_DB_URL + "message/getMessage";
+                        Map<String, String> map = new HashMap<>();
+                        map.put("token", application.getToken());
+                        map.put("uuid", friendId);
+                        OkhttpUtil.okHttpPost(url, map, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -225,6 +231,7 @@ public class ChattingActivity extends AppCompatActivity {
      * 发送消息
      */
     private void sendMsg() {
+        bnSend.setClickable(false);
         final String str = etInput.getText().toString();
         if ("".equals(str)) {
             Toast.makeText(ChattingActivity.this, "内容不能为空", Toast.LENGTH_SHORT).show();
@@ -238,6 +245,7 @@ public class ChattingActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call call, Exception e) {
                     Toast.makeText(ChattingActivity.this, R.string.server_response_error, Toast.LENGTH_SHORT).show();
+                    bnSend.setClickable(true);
                 }
 
                 @Override
@@ -262,6 +270,7 @@ public class ChattingActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    bnSend.setClickable(true);
                 }
             });
         }
