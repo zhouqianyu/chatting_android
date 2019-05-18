@@ -15,8 +15,10 @@ import com.bysj.chatting.R;
 import com.bysj.chatting.application.ChattingApplication;
 import com.bysj.chatting.util.CallBackUtil;
 import com.bysj.chatting.util.Constant;
+import com.bysj.chatting.util.ImageUitl;
 import com.bysj.chatting.util.OkhttpUtil;
 import com.bysj.chatting.view.ClearEditText;
+import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private ClearEditText etAccount;
     private ClearEditText etPassword;
     private ProgressBar progressBar;
+    private QMUIRadiusImageView qivHeader;
     SharedPreferences perPreferences;
     SharedPreferences.Editor editor;
     ChattingApplication application;
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         etAccount = findViewById(R.id.et_account);
         etPassword = findViewById(R.id.cet_password);
         progressBar = findViewById(R.id.progressBar);
+        qivHeader = findViewById(R.id.qiv_header);
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,8 +77,10 @@ public class LoginActivity extends AppCompatActivity {
         if (perPreferences != null) {
             String mName = perPreferences.getString("name", "");
             String mPwd = perPreferences.getString("pass", "");
+            String imgUrl = perPreferences.getString("img_url", "");
             etAccount.setText(mName);
             etPassword.setText(mPwd);
+            ImageUitl.showNetImage(qivHeader, imgUrl);
         }
     }
 
@@ -86,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         editor.putString("name", account);
         editor.putString("pass", password);
+        editor.putString("img_url", "http://www.zhouqianyu.com:8080/chatting/img/head_1aLIcbJfcdV981uuVqPWqIkFtY8B87Rp.jpg");
         editor.commit();
         if (checkFormit(account, password)) {
             doLogin(account, password);
@@ -111,10 +118,12 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
                     if (code == 200) {
-                        String data = jsonObject.getString("data");
-                        application.setToken(data);
-                        // TODO设置我的id
-                        application.setMiId("test");
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String token = data.getString("token");
+                        String uuid = data.getString("uuid");
+                        application.setToken(token);
+                        // TODO 设置我的id
+                        application.setMiId(uuid);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();

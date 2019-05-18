@@ -24,6 +24,7 @@
 
 
         <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+            android:id="@+id/qiv_header"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_above="@+id/cardView"

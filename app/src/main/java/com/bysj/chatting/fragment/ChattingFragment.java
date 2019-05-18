@@ -24,8 +24,10 @@ import com.bysj.chatting.util.Constant;
 import com.bysj.chatting.util.OkhttpUtil;
 import com.bysj.chatting.view.ClearEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +86,16 @@ public class ChattingFragment extends Fragment {
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()));
         // TODO 设置下拉刷新的监听器
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                listItemsRe.clear();
+                listItems.clear();
+                adapter.notifyDataSetChanged();
+                getListContent();
+                refreshlayout.finishRefresh();
+            }
+        });
 
         listItems = new ArrayList<>();
         listItemsRe = new ArrayList<>();
@@ -143,18 +155,15 @@ public class ChattingFragment extends Fragment {
                         JSONArray array = jsonObject.getJSONArray("data");
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.getJSONObject(i);
-                            JSONObject msg = item.getJSONArray("chattingLogs").getJSONObject(0);
-                            JSONObject user = item.getJSONObject("user");
-                            Log.e("msg", msg.toString());
                             MessageBean messageBean = new MessageBean();
-                            messageBean.setId(msg.getInt("id"));
-                            messageBean.setFriendAvatar(user.getString("img_url"));
-                            messageBean.setContent(msg.getString("message"));
-                            messageBean.setFriendId(user.getString("uuid"));
-                            messageBean.setFriendName(user.getString("username"));
-                            messageBean.setIsDelivery(msg.getInt("is_delivery"));
+                            messageBean.setId(item.getInt("id"));
+                            messageBean.setFriendAvatar(item.getString("img_url"));
+                            messageBean.setContent(item.getString("message"));
+                            messageBean.setFriendId(item.getString("friend_uuid"));
+                            messageBean.setFriendName(item.getString("username"));
+                            messageBean.setIsDelivery(item.getInt("is_delivery"));
                             // TODO 时间（时分/昨天/周几/一周前）这几个梯度
-                            Date date = new Date(msg.getLong("created_at"));
+                            Date date = new Date(item.getLong("created_at"));
                             messageBean.setTime(sdf.format(date));
                             listItemsRe.add(messageBean);
                         }
