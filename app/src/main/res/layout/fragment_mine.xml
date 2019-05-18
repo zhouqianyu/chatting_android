@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-                android:id="@+id/qiv_avatar"
+                android:id="@+id/qiv_mine_avatar"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:qmui_border_width="0dp"
@@ -42,7 +42,7 @@
                 app:srcCompat="@mipmap/header_default" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
@@ -62,6 +62,7 @@
             android:background="#e5e5e5"></LinearLayout>
         <!--签名-->
         <TextView
+            android:id="@id/tv_describe"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"

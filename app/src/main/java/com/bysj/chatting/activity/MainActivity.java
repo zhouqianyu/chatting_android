@@ -1,9 +1,14 @@
 package com.bysj.chatting.activity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,8 +16,17 @@ import android.widget.Toast;
 
 import com.bysj.chatting.R;
 import com.bysj.chatting.adapter.MyFragmentAdapter;
+import com.bysj.chatting.application.ChattingApplication;
+import com.bysj.chatting.broadcast.MyReceiver;
+import com.bysj.chatting.service.MqttService;
 import com.bysj.chatting.util.CacheActivityUtil;
 import com.bysj.chatting.util.PixelUtil;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 主活动
@@ -26,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private RadioButton rbFriends;
     private RadioButton rbMine;
     private ViewPager vpager;
+    private ChattingApplication application;
 
     // 定义Fragment的适配器
     private MyFragmentAdapter mAdapter;
@@ -41,6 +56,38 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         initView();
         changeImageSize();
         rbChatting.setChecked(true);
+        starMQTT();
+    }
+
+
+    /**
+     * 挂服务
+     */
+    private void starMQTT() {
+        MqttService mqttService = new MqttService();
+        mqttService.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+                Log.e("mq", "lost");
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                String str = new String(message.getPayload(), StandardCharsets.UTF_8);
+                Log.e("mq", str);
+
+                Intent intent = new Intent("wzjdgb");
+                intent.putExtra("msg", str);
+                sendBroadcast(intent);
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                Log.e("mq", "delivery");
+            }
+        });
+        application.setMqttService(mqttService);
+        mqttService.connect(application.getMiId(), "message_to_" + application.getMiId());
     }
 
     // 按键事件
@@ -61,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private void initView() {
         // 透明状态栏
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        application = (ChattingApplication) getApplication();
         CacheActivityUtil.addActivity(MainActivity.this);
         rgTabBar = (RadioGroup) findViewById(R.id.rg_tab_bar);
         rbChatting = (RadioButton) findViewById(R.id.rb_chatting);

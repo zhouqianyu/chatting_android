@@ -2,6 +2,7 @@ package com.bysj.chatting.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,9 +17,11 @@ import android.widget.Toast;
 
 import com.bysj.chatting.R;
 import com.bysj.chatting.activity.ChattingActivity;
+import com.bysj.chatting.activity.MainActivity;
 import com.bysj.chatting.adapter.MessageAdapter;
 import com.bysj.chatting.application.ChattingApplication;
 import com.bysj.chatting.bean.MessageBean;
+import com.bysj.chatting.broadcast.MyReceiver;
 import com.bysj.chatting.util.CallBackUtil;
 import com.bysj.chatting.util.Constant;
 import com.bysj.chatting.util.OkhttpUtil;
@@ -61,6 +64,10 @@ public class ChattingFragment extends Fragment {
     ChattingApplication application;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    // 广播
+    MyReceiver receiver;
+    IntentFilter filter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +80,7 @@ public class ChattingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
         getListContent();
+        initReceiver();
     }
 
     /**
@@ -85,7 +93,7 @@ public class ChattingFragment extends Fragment {
         smartRefreshLayout = getActivity().findViewById(R.id.smart_refresh);
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()));
-        // TODO 设置下拉刷新的监听器
+        // 设置下拉刷新的监听器
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -109,6 +117,7 @@ public class ChattingFragment extends Fragment {
                 MessageBean mb = listItems.get(position);
                 Intent intent = new Intent(getActivity(), ChattingActivity.class);
                 intent.putExtra("friendName", mb.getFriendName());
+                intent.putExtra("friendAvatar", mb.getFriendAvatar());
                 intent.putExtra("friendId", mb.getFriendId());
                 startActivity(intent);
             }
@@ -147,7 +156,6 @@ public class ChattingFragment extends Fragment {
 
             @Override
             public void onResponse(String response) {
-                Log.e("res", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
@@ -163,12 +171,13 @@ public class ChattingFragment extends Fragment {
                             messageBean.setFriendName(item.getString("username"));
                             messageBean.setIsDelivery(item.getInt("is_delivery"));
                             // TODO 时间（时分/昨天/周几/一周前）这几个梯度
-                            Date date = new Date(item.getLong("created_at"));
-                            messageBean.setTime(sdf.format(date));
+                            if (item.getString("created_at") != null) {
+                                Date date = new Date(item.getLong("created_at"));
+                                messageBean.setTime(sdf.format(date));
+                            }
                             listItemsRe.add(messageBean);
                         }
                         doSearch("");
-                        adapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getActivity(), R.string.server_response_error, Toast.LENGTH_SHORT).show();
                     }
@@ -192,4 +201,26 @@ public class ChattingFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+
+    /**
+     * 广播相关
+     */
+    private void initReceiver() {
+        filter = new IntentFilter("wzjdgb");
+        receiver = new MyReceiver(new MyReceiver.BoardCastCallback() {
+            @Override
+            public void callback(String msg) {
+                // TODO 修改内容
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+        getActivity().registerReceiver(receiver, filter);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroy();
+    }
 }

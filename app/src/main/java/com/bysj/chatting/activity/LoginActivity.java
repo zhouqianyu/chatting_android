@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+                Log.e("res",response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
@@ -121,9 +122,10 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject data = jsonObject.getJSONObject("data");
                         String token = data.getString("token");
                         String uuid = data.getString("uuid");
+                        String avatar = data.getString("img_url");
                         application.setToken(token);
-                        // TODO 设置我的id
                         application.setMiId(uuid);
+                        application.setMyAvatar(avatar);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();

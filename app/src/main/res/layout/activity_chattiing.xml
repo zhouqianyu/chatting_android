@@ -40,7 +40,8 @@
         android:layout_above="@+id/re_bottom"
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
-        android:divider="@color/Write" />
+        android:divider="@color/Write"
+        android:stackFromBottom="true" />
 
     <!--底部框-->
     <LinearLayout
