@@ -156,6 +156,7 @@ public class ChattingFragment extends Fragment {
 
             @Override
             public void onResponse(String response) {
+                Log.e("res0",response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     int code = jsonObject.getInt("code");
