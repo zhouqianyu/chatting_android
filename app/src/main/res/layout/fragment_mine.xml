@@ -38,8 +38,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:qmui_border_width="0dp"
-                app:qmui_is_circle="true"
-                app:srcCompat="@mipmap/header_default" />
+                app:qmui_is_circle="true" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -49,7 +48,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="张三丰"
+                android:text=""
                 android:textColor="@color/text_black3"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -62,11 +61,11 @@
             android:background="#e5e5e5"></LinearLayout>
         <!--签名-->
         <TextView
-            android:id="@id/tv_describe"
+            android:id="@+id/tv_my_describe"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:text="该用户很懒，什么都没写"
+            android:text=""
             android:textColor="@color/text_black6"
             android:textSize="14sp"></TextView>
 
@@ -80,7 +79,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="20dp"
@@ -115,6 +115,7 @@
             android:background="#e5e5e5"></LinearLayout>
         <!--退出登录-->
         <LinearLayout
+            android:id="@+id/ll_quit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -124,7 +125,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.6"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/left_quit" />
 
             <TextView
                 android:layout_width="wrap_content"
